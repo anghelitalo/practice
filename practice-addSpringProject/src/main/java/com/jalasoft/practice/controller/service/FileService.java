@@ -22,7 +22,7 @@ public class FileService {
     @Autowired
     private Properties properties;
 
-    public File writeFile(MultipartFile file) throws FileException {
+    public File store(MultipartFile file) throws FileException {
 
         try {
                 String fileInput;

@@ -18,6 +18,7 @@ public class ConvertorHandle implements IConvertor<ConvertorParam>{
 
     @Override
     public Result convertor(ConvertorParam param) throws ConvertorException, ParameterInvalidException {
+        param.validate();
         File fileName = param.getInputFile(); // provide the path to pdf file
         PDDocument document = null;
 
