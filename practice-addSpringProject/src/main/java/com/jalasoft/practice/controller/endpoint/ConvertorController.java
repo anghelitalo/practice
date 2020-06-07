@@ -1,8 +1,8 @@
 package com.jalasoft.practice.controller.endpoint;
 
+import com.jalasoft.practice.common.exception.InvalidDataException;
 import com.jalasoft.practice.controller.component.Properties;
 import com.jalasoft.practice.controller.exception.FileException;
-import com.jalasoft.practice.controller.exception.RequestParamInvalidException;
 import com.jalasoft.practice.controller.request.RequestConvertParameter;
 import com.jalasoft.practice.controller.response.ErrorResponse;
 import com.jalasoft.practice.controller.response.OKResponse;
@@ -11,7 +11,6 @@ import com.jalasoft.practice.model.convert.ConvertorHandle;
 
 import com.jalasoft.practice.model.convert.IConvertor;
 import com.jalasoft.practice.model.convert.exception.ConvertorException;
-import com.jalasoft.practice.model.convert.exception.ParameterInvalidException;
 import com.jalasoft.practice.model.convert.parameter.ConvertorParam;
 import com.jalasoft.practice.model.convert.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,15 +50,10 @@ public class ConvertorController {
                     new ErrorResponse(ex.getMessage(), HttpServletResponse.SC_BAD_REQUEST)
             );
 
-        } catch (RequestParamInvalidException ex) {
+        } catch (InvalidDataException ex) {
         return ResponseEntity.badRequest().body(
                 new ErrorResponse(ex.getMessage(), HttpServletResponse.SC_BAD_REQUEST)
         );
-        } catch (ParameterInvalidException ex){
-            return ResponseEntity.badRequest().body(
-                    new ErrorResponse(ex.getMessage(), HttpServletResponse.SC_BAD_REQUEST)
-            );
-
         } catch (ConvertorException ex){
             return ResponseEntity.badRequest().body(
                     new ErrorResponse(ex.getMessage(), HttpServletResponse.SC_BAD_REQUEST)

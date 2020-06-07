@@ -1,7 +1,7 @@
 package com.jalasoft.practice.controller.service;
 
+import com.jalasoft.practice.common.constant.ErrorMessageConstant;
 import com.jalasoft.practice.controller.component.Properties;
-import com.jalasoft.practice.controller.constant.ErrorConstant;
 import com.jalasoft.practice.controller.exception.FileException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class FileService {
                 Files.copy(file.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
                 return new File(fileInput);
             } catch (Exception ex) {
-                throw new FileException(ErrorConstant.FILE_ERROR, ex);
+                throw new FileException(ErrorMessageConstant.FILE_ERROR, ex);
             }
     }
 

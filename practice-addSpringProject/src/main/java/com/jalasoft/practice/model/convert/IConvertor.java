@@ -8,6 +8,7 @@
  */
 package com.jalasoft.practice.model.convert;
 
+import com.jalasoft.practice.common.exception.InvalidDataException;
 import com.jalasoft.practice.model.convert.exception.ConvertorException;
 import com.jalasoft.practice.model.convert.exception.ParameterInvalidException;
 import com.jalasoft.practice.model.convert.parameter.ConvertorParam;
@@ -19,5 +20,5 @@ import com.jalasoft.practice.model.convert.result.Result;
  *@author Publica
  */
 public interface IConvertor <T extends Parameter>{
-    Result convertor(T param) throws ConvertorException, ParameterInvalidException;
+    Result convertor(T param) throws ConvertorException, InvalidDataException;
 }

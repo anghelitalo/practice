@@ -8,7 +8,7 @@
  */
 package com.jalasoft.practice.model.convert.parameter;
 
-import com.jalasoft.practice.model.convert.exception.ParameterInvalidException;
+import com.jalasoft.practice.common.exception.InvalidDataException;
 
 import java.io.File;
 
@@ -24,7 +24,7 @@ public class ConvertorParam extends Parameter{
 
 
     @Override
-    public void validate() throws ParameterInvalidException {
+    public void validate() throws InvalidDataException {
         super.validate();
     }
 }

@@ -1,6 +1,6 @@
 package com.jalasoft.practice.model.convert;
+import com.jalasoft.practice.common.exception.InvalidDataException;
 import com.jalasoft.practice.model.convert.exception.ConvertorException;
-import com.jalasoft.practice.model.convert.exception.ParameterInvalidException;
 import com.jalasoft.practice.model.convert.parameter.ConvertorParam;
 import com.jalasoft.practice.model.convert.result.Result;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -22,7 +22,7 @@ public class ConvertorHandle implements IConvertor<ConvertorParam>{
     private static String DOC_INVALID = "Document invalid.";
 
     @Override
-    public Result convertor(ConvertorParam param) throws ConvertorException, ParameterInvalidException {
+    public Result convertor(ConvertorParam param) throws ConvertorException, InvalidDataException {
         param.validate();
         File fileName = param.getInputFile(); // provide the path to pdf file
         PDDocument document = null;
@@ -50,7 +50,7 @@ public class ConvertorHandle implements IConvertor<ConvertorParam>{
         }
         finally {
             if(document == null) {
-                throw new ParameterInvalidException(DOC_INVALID);
+                throw new InvalidDataException(DOC_INVALID);
             }
         }
     }

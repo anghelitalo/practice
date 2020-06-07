@@ -8,6 +8,7 @@
  */
 package com.jalasoft.practice.controller.exception;
 
+import com.jalasoft.practice.common.exception.InvalidDataException;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -49,5 +50,5 @@ public abstract class RequestParameter {
         this.outDir = outDir;
     }
 
-    public abstract void validate() throws RequestParamInvalidException;
+    public abstract void validate() throws InvalidDataException;
 }

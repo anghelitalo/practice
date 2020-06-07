@@ -8,7 +8,8 @@
  */
 package com.jalasoft.practice.model.convert.parameter;
 
-import com.jalasoft.practice.model.convert.exception.ParameterInvalidException;
+import com.jalasoft.practice.common.exception.InvalidDataException;
+import com.jalasoft.practice.common.validation.*;
 
 import java.io.File;
 import java.util.Arrays;
@@ -21,7 +22,6 @@ import java.util.List;
 public class Parameter {
     File inputFile;
     String format;
-    private final static List<String> formats = Arrays.asList("jpg","jpeg","png","bmp","gif");
     String outDir;
 
     public Parameter(File inputFile, String format, String outDir) {
@@ -36,19 +36,14 @@ public class Parameter {
     public String getFormat(){return format;}
     public String getOutDir(){return outDir;}
 
-    public void validate() throws ParameterInvalidException {
-        if(inputFile.isHidden()) {
-            throw new ParameterInvalidException();
-        }
-        if(!inputFile.isFile()) {
-            throw new ParameterInvalidException();
-        }
-        if(format.isEmpty()){
-            throw new ParameterInvalidException();
-        }
-        if(!formats.contains(this.format.toLowerCase()))
-        {
-            throw new ParameterInvalidException();
-        }
+    public void validate() throws InvalidDataException {
+        List<IValidatorStrategy> strategyList = Arrays.asList(
+                new NotNullOrEmptyValidation("outDir",this.outDir),
+                new NotNullOrEmptyValidation("format",this.format),
+                new FileValidation(this.inputFile,true),
+                new FormatValidation(this.format)
+        );
+        ValidationContext context = new ValidationContext(strategyList);
+        context.validate();
     }
 }
