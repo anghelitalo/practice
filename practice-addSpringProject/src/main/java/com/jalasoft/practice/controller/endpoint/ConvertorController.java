@@ -2,6 +2,7 @@ package com.jalasoft.practice.controller.endpoint;
 
 import com.jalasoft.practice.controller.component.Properties;
 import com.jalasoft.practice.controller.exception.FileException;
+import com.jalasoft.practice.controller.exception.RequestParamInvalidException;
 import com.jalasoft.practice.controller.request.RequestConvertParameter;
 import com.jalasoft.practice.controller.response.ErrorResponse;
 import com.jalasoft.practice.controller.response.OKResponse;
@@ -36,21 +37,24 @@ public class ConvertorController {
     public ResponseEntity convert(RequestConvertParameter parameter){
 
         try {
+            parameter.validate();
             File file_ = fileService.store(parameter.getFile());
             IConvertor<ConvertorParam> convertorHandle = new ConvertorHandle();
             Result result = convertorHandle.convertor(new ConvertorParam(file_, parameter.getFormat(),parameter.getOutDir()));
-            //return ResponseEntity.ok().body(new OKResponse(result.getText(), HttpServletResponse.SC_OK));
             String fileDownloadUri = fileService.getDownloadLink(new File(result.getText()));
 
             return ResponseEntity.ok().body(
-                    new OKResponse<Integer>(fileDownloadUri, HttpServletResponse.SC_OK)
+                    new OKResponse(fileDownloadUri, HttpServletResponse.SC_OK)
             );
-
         } catch (FileException ex) {
             return ResponseEntity.badRequest().body(
                     new ErrorResponse(ex.getMessage(), HttpServletResponse.SC_BAD_REQUEST)
             );
 
+        } catch (RequestParamInvalidException ex) {
+        return ResponseEntity.badRequest().body(
+                new ErrorResponse(ex.getMessage(), HttpServletResponse.SC_BAD_REQUEST)
+        );
         } catch (ParameterInvalidException ex){
             return ResponseEntity.badRequest().body(
                     new ErrorResponse(ex.getMessage(), HttpServletResponse.SC_BAD_REQUEST)

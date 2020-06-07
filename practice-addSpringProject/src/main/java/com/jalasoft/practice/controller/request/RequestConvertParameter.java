@@ -1,34 +1,36 @@
 package com.jalasoft.practice.controller.request;
+import com.jalasoft.practice.controller.exception.RequestParamInvalidException;
+import com.jalasoft.practice.controller.exception.RequestParameter;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-public class RequestConvertParameter {
-    private MultipartFile file;
-    private String format;
-    private String outDir;
+import java.util.Arrays;
+import java.util.List;
 
-    public RequestConvertParameter(MultipartFile file, String format, String outDir) {
-        this.file = file;
-        this.format = format;
-        this.outDir = outDir;
+public class RequestConvertParameter extends RequestParameter {
+
+    private final static List<String> FORMATS = Arrays.asList("jpg","jpeg","png","bmp","gif");
+
+    public RequestConvertParameter(MultipartFile file,String format,String outDir) {
+        super(file, format,outDir);
     }
 
-    public MultipartFile getFile() {
-        return file;
+    @Override
+    public void validate() throws RequestParamInvalidException {
+        if (this.format == null || this.format.trim().isEmpty()) {
+            throw new RequestParamInvalidException("format is null or empty");
+        }
+        if (this.file == null || this.file.isEmpty()) {
+            throw new RequestParamInvalidException("file is null or empty");
+        }
+        if (this.file.getOriginalFilename().contains("..")) {
+            throw new RequestParamInvalidException("invalid file name.");
+        }
+        if (this.outDir == null || this.outDir.trim().isEmpty()) {
+            throw new RequestParamInvalidException("outDir is null or empty");
+        }
+        if (!FORMATS.contains(this.format.toLowerCase())) {
+            throw new RequestParamInvalidException("format not allowed.");
+        }
     }
-
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
-
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
-    public String getOutDir() { return outDir;}
-
-    public void setOutDir(String outDir) {this.outDir = outDir;}
 }
