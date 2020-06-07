@@ -38,8 +38,14 @@ public class ConvertorController {
         try {
             File file_ = fileService.store(parameter.getFile());
             IConvertor<ConvertorParam> convertorHandle = new ConvertorHandle();
-            Result result = convertorHandle.convertor(new ConvertorParam(file_, parameter.getFormat()));
-            return ResponseEntity.ok().body(new OKResponse(result.getText(), HttpServletResponse.SC_OK));
+            Result result = convertorHandle.convertor(new ConvertorParam(file_, parameter.getFormat(),parameter.getOutDir()));
+            //return ResponseEntity.ok().body(new OKResponse(result.getText(), HttpServletResponse.SC_OK));
+            String fileDownloadUri = fileService.getDownloadLink(new File(result.getText()));
+
+            return ResponseEntity.ok().body(
+                    new OKResponse<Integer>(fileDownloadUri, HttpServletResponse.SC_OK)
+            );
+
         } catch (FileException ex) {
             return ResponseEntity.badRequest().body(
                     new ErrorResponse(ex.getMessage(), HttpServletResponse.SC_BAD_REQUEST)

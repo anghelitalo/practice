@@ -18,8 +18,8 @@ import java.io.File;
  */
 public class ConvertorParam extends Parameter{
 
-    public ConvertorParam(File file, String format) {
-        super(file, format);
+    public ConvertorParam(File file, String format, String outDir) {
+        super(file, format, outDir);
     }
 
 

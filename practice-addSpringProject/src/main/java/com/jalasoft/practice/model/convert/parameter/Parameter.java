@@ -22,16 +22,19 @@ public class Parameter {
     File inputFile;
     String format;
     private final static List<String> formats = Arrays.asList("jpg","jpeg","png","bmp","gif");
+    String outDir;
 
-    public Parameter(File inputFile, String format) {
+    public Parameter(File inputFile, String format, String outDir) {
         this.inputFile = inputFile;
         this.format = format;
+        this.outDir = outDir;
     }
 
     public File getInputFile() {
         return inputFile;
     }
     public String getFormat(){return format;}
+    public String getOutDir(){return outDir;}
 
     public void validate() throws ParameterInvalidException {
         if(inputFile.isHidden()) {

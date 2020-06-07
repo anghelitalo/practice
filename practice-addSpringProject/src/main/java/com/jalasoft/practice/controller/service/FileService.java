@@ -6,15 +6,13 @@ import com.jalasoft.practice.controller.exception.FileException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.nio.file.StandardCopyOption;
 @Service
 public class FileService {
@@ -26,7 +24,7 @@ public class FileService {
 
         try {
                 String fileInput;
-                String folder = properties.getInputFolder();
+                String folder = properties.getDirectoryFolder();
                 fileInput = folder + file.getOriginalFilename();
                 Path path = Paths.get(fileInput);
                 Files.copy(file.getInputStream(),path, StandardCopyOption.REPLACE_EXISTING);
@@ -34,5 +32,12 @@ public class FileService {
             } catch (Exception ex) {
                 throw new FileException(ErrorConstant.FILE_ERROR, ex);
             }
+    }
+
+    public String getDownloadLink(File file) {
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/api/v1/download/")
+                .path(file.getName())
+                .toUriString();
     }
 }

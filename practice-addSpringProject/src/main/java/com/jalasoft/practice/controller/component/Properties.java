@@ -19,14 +19,19 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "convertor")
 public class Properties {
     String outputFolder;
-    String inputFolder;
+    String directoryFolder;
+    String publicFolder;
 
-    public String getInputFolder() {
-        return inputFolder;
+    public String getPublicFolder() {return publicFolder;}
+
+    public void setPublicFolder(String publicFolder) { this.publicFolder = publicFolder;}
+
+    public String getDirectoryFolder() {
+        return directoryFolder;
     }
 
-    public void setInputFolder(String inputFolder) {
-        this.inputFolder = inputFolder;
+    public void setDirectoryFolder(String directoryFolder) {
+        this.directoryFolder = directoryFolder;
     }
 
     public String getOutputFolder() {
