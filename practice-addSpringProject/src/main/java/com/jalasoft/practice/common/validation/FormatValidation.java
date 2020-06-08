@@ -10,25 +10,38 @@ package com.jalasoft.practice.common.validation;
 
 import com.jalasoft.practice.common.constant.ErrorMessageConstant;
 import com.jalasoft.practice.common.exception.InvalidDataException;
+import com.jalasoft.practice.common.configuration.ConfigurationProperty;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * @author AL
  * @version 1.1
  */
-public class FormatValidation implements IValidatorStrategy{
-    private String ext;
-    private final static List<String> EXTENSIONS = Arrays.asList("jpg","jpeg","png","bmp","gif");
+public class FormatValidation implements IValidatorStrategy {
+    /**
+     *
+     */
+    private final String ext;
+    /**
+     *
+     */
+    private List<String> FORMAT;
 
+    /**
+     * @param ext
+     */
     public FormatValidation(String ext) {
         this.ext = ext;
     }
 
+    /**
+     * @throws InvalidDataException
+     */
     @Override
     public void validate() throws InvalidDataException {
-        if(!EXTENSIONS.contains(this.ext)) {
+        this.FORMAT = ConfigurationProperty.getFormatType();
+        if (!FORMAT.contains(this.ext)) {
             throw new InvalidDataException(ErrorMessageConstant.EXTENSION_ERROR_MESSAGE);
         }
     }
